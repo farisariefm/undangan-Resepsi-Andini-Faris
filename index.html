@@ -1,12 +1,574 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Undangan Resepsi Pernikahan — dr. Andini Zulmaeta & Faris Arief Mawardi, S.T.</title>
+  <meta name="description" content="Undangan Resepsi Pernikahan dr. Andini Zulmaeta & Faris Arief Mawardi, S.T. — Minggu, 27 Desember 2026 di Hotel Pangeran, Pekanbaru." />
+
+  <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans, & Amiri -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EDE5D5',
+              300: '#DFD2B8'
+            },
+            gold: {
+              300: '#D4BE92',
+              400: '#C3A66D',
+              500: '#AA894B',
+              600: '#937338',
+              700: '#785B29'
+            },
+            olive: {
+              50: '#F2F5F1',
+              100: '#E3EAE1',
+              500: '#71856C',
+              600: '#586A54'
+            },
+            charcoal: {
+              700: '#46413A',
+              800: '#2E2A25',
+              900: '#1F1C18'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            arabic: ['"Amiri"', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Leaflet Maps & QRCode & Lucide Icons -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      background-color: #F7F3EB;
+      color: #2E2A25;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Paper Texture Overlay */
+    .paper-surface {
+      background-color: #FDFBF7;
+      background-image: radial-gradient(rgba(170, 137, 75, 0.06) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Cover Curtain Transition */
+    #cover-screen {
+      transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.7s ease;
+    }
+    #cover-screen.opened {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.85s ease-out, transform 0.85s ease-out;
+    }
+    .reveal-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Music Disc Spin */
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spinSlow 9s linear infinite;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F7F3EB;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #C3A66D;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-gold-300/40 selection:text-charcoal-900">
+
+  <!-- Background Audio Element (Infinite Seamless Loop) -->
+  <audio id="bg-music" src="since-i-found-you.mp3" preload="auto" loop playsinline></audio>
+
+  <!-- ==================== 1. FULLSCREEN OPENING COVER ==================== -->
+  <section id="cover-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-ivory-100 p-4 sm:p-6 overflow-y-auto">
+    <div class="relative w-full max-w-lg rounded-3xl paper-surface border border-gold-300/60 shadow-2xl px-6 py-10 sm:px-10 sm:py-12 text-center overflow-hidden">
+      
+      <!-- Top-Left Botanical Accent SVG -->
+      <svg class="pointer-events-none absolute -top-2 -left-2 w-28 h-28 sm:w-36 sm:h-36 text-olive-500/80" viewBox="0 0 140 140" fill="none">
+        <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+        <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+        <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+        <ellipse cx="75" cy="40" rx="10" ry="4.5" transform="rotate(-32 75 40)" fill="#9DB097" fill-opacity="0.6"/>
+        <circle cx="24" cy="44" r="13" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+        <circle cx="24" cy="44" r="5" fill="#DFD2B8"/>
+        <circle cx="24" cy="44" r="2" fill="#AA894B"/>
+        <circle cx="52" cy="24" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+        <circle cx="52" cy="24" r="4.5" fill="#DFD2B8"/>
+        <circle cx="52" cy="24" r="1.8" fill="#AA894B"/>
+      </svg>
+
+      <!-- Bottom-Right Botanical Accent SVG -->
+      <svg class="pointer-events-none absolute -bottom-2 -right-2 w-28 h-28 sm:w-36 sm:h-36 rotate-180 text-olive-500/80" viewBox="0 0 140 140" fill="none">
+        <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+        <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+        <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+        <ellipse cx="75" cy="40" rx="10" ry="4.5" transform="rotate(-32 75 40)" fill="#9DB097" fill-opacity="0.6"/>
+        <circle cx="24" cy="44" r="13" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+        <circle cx="24" cy="44" r="5" fill="#DFD2B8"/>
+        <circle cx="24" cy="44" r="2" fill="#AA894B"/>
+        <circle cx="52" cy="24" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+        <circle cx="52" cy="24" r="4.5" fill="#DFD2B8"/>
+        <circle cx="52" cy="24" r="1.8" fill="#AA894B"/>
+      </svg>
+
+      <!-- Cover Heading -->
+      <p class="relative z-10 text-xs sm:text-sm uppercase tracking-[0.28em] text-gold-600 font-semibold mb-4">
+        Undangan Resepsi Pernikahan
+      </p>
+
+      <!-- Couple Monogram Names -->
+      <div class="relative z-10 my-5">
+        <h1 class="font-serif text-4xl sm:text-5xl font-bold text-charcoal-900 tracking-wide leading-tight">
+          Andini
+        </h1>
+        <p class="font-serif italic text-2xl sm:text-3xl text-gold-500 my-1">&amp;</p>
+        <h1 class="font-serif text-4xl sm:text-5xl font-bold text-charcoal-900 tracking-wide leading-tight">
+          Faris
+        </h1>
+      </div>
+
+      <!-- Event Date Pill -->
+      <div class="relative z-10 inline-flex items-center gap-2 rounded-full bg-ivory-200/75 border border-gold-300/50 px-4 py-1.5 text-xs sm:text-sm font-medium text-charcoal-800 mb-6">
+        <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold-600"></i>
+        <span>Minggu, 27 Desember 2026</span>
+      </div>
+
+      <!-- Personalized Guest Recipient Box -->
+      <div class="relative z-10 mx-auto max-w-sm rounded-2xl bg-white/85 border border-gold-300/60 px-5 py-4 shadow-sm mb-7">
+        <p class="text-[11px] uppercase tracking-[0.2em] text-charcoal-700/75 mb-1">
+          Kepada Yth. Bapak/Ibu/Saudara/i
+        </p>
+        <p id="cover-guest-name" class="font-serif text-xl sm:text-2xl font-semibold text-charcoal-900 break-words">
+          Tamu Undangan
+        </p>
+      </div>
+
+      <!-- Open Invitation Button -->
+      <button
+        id="btn-open-invitation"
+        type="button"
+        class="relative z-10 inline-flex items-center justify-center gap-2.5 rounded-full bg-gold-600 hover:bg-gold-700 active:scale-[0.99] text-white font-medium text-xs sm:text-sm uppercase tracking-[0.18em] px-8 py-3.5 shadow-lg shadow-gold-700/25 transition cursor-pointer"
+      >
+        <i data-lucide="mail-open" class="w-4 h-4"></i>
+        <span>Buka Undangan</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==================== 2. MAIN INVITATION CONTENT ==================== -->
+  <main id="main-content" class="min-h-screen py-6 px-3 sm:py-12 sm:px-6">
+    <div class="mx-auto max-w-3xl rounded-3xl paper-surface border border-gold-300/60 shadow-xl overflow-hidden">
+
+      <!-- SECTION A: BISMILLAH, SALAM & QS AR-RUM 21 -->
+      <section class="relative px-6 pt-12 pb-10 sm:px-14 sm:pt-16 sm:pb-12 text-center border-b border-gold-300/35 overflow-hidden">
+        <!-- Decorative Top Corners -->
+        <svg class="pointer-events-none absolute top-0 left-0 w-24 h-24 sm:w-32 sm:h-32 text-olive-500/75" viewBox="0 0 140 140" fill="none">
+          <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+          <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+          <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+          <circle cx="24" cy="44" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="24" cy="44" r="4.5" fill="#DFD2B8"/>
+          <circle cx="52" cy="24" r="11" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="52" cy="24" r="4" fill="#DFD2B8"/>
+        </svg>
+        <svg class="pointer-events-none absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 -scale-x-100 text-olive-500/75" viewBox="0 0 140 140" fill="none">
+          <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+          <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+          <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+          <circle cx="24" cy="44" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="24" cy="44" r="4.5" fill="#DFD2B8"/>
+          <circle cx="52" cy="24" r="11" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="52" cy="24" r="4" fill="#DFD2B8"/>
+        </svg>
+
+        <div class="reveal-item relative z-10">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.28em] text-gold-600 font-semibold mb-3">
+            Undangan Resepsi Pernikahan
+          </p>
+
+          <!-- Arabic Bismillah Calligraphy -->
+          <p class="font-arabic text-3xl sm:text-4xl text-charcoal-900 leading-relaxed my-3" dir="rtl" lang="ar">
+            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+          </p>
+
+          <p class="font-serif text-lg sm:text-xl font-semibold text-charcoal-800 mt-3 mb-6">
+            Assalamualaikum Warahmatullahi Wabarakatuh
+          </p>
+
+          <!-- Quran Quote Box -->
+          <div class="mx-auto max-w-xl rounded-2xl bg-ivory-100/90 border border-gold-300/45 px-5 py-5 sm:px-8 sm:py-6 mb-7">
+            <p class="font-serif italic text-base sm:text-lg text-charcoal-800 leading-relaxed">
+              “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.”
+            </p>
+            <p class="mt-3 text-[11px] sm:text-xs uppercase tracking-[0.22em] font-semibold text-gold-600">
+              ( QS. AR-RUM : 21 )
+            </p>
+          </div>
+
+          <p class="mx-auto max-w-lg text-sm sm:text-base text-charcoal-700 leading-relaxed">
+            Dengan memohon Rahmat dan Ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara Resepsi Pernikahan putra-putri kami:
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION B: MEMPELAI & ORANG TUA -->
+      <section class="px-6 py-10 sm:px-14 sm:py-14 text-center border-b border-gold-300/35">
+        <div class="reveal-item space-y-7">
+          <!-- Bride -->
+          <div>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 tracking-wide">
+              dr. Andini Zulmaeta
+            </h2>
+            <p class="mt-2 text-xs sm:text-sm text-charcoal-700 leading-relaxed">
+              Putri dari Bapak <span class="font-semibold text-charcoal-900">Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM</span><br />
+              &amp; Ibu <span class="font-semibold text-charcoal-900">Mulyasni Muis, S.H., M.M., M.Kn.</span>
+            </p>
+          </div>
+
+          <!-- Ampersand Divider -->
+          <div class="flex items-center justify-center gap-4">
+            <span class="h-px w-14 sm:w-20 bg-gold-300/70"></span>
+            <span class="font-serif italic text-3xl sm:text-4xl text-gold-500">&amp;</span>
+            <span class="h-px w-14 sm:w-20 bg-gold-300/70"></span>
+          </div>
+
+          <!-- Groom -->
+          <div>
+            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900 tracking-wide">
+              Faris Arief Mawardi, S.T.
+            </h2>
+            <p class="mt-2 text-xs sm:text-sm text-charcoal-700 leading-relaxed">
+              Putra dari Bapak <span class="font-semibold text-charcoal-900">Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH</span><br />
+              &amp; Ibu <span class="font-semibold text-charcoal-900">Dra. Tia Setiati</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION C: WAKTU, COUNTDOWN & LOKASI ACARA -->
+      <section class="px-6 py-10 sm:px-14 sm:py-14 text-center border-b border-gold-300/35 bg-ivory-100/45">
+        <div class="reveal-item">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.26em] text-gold-600 font-semibold mb-2">
+            Waktu &amp; Tempat Pelaksanaan
+          </p>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal-900 mb-6">
+            Resepsi Pernikahan
+          </h3>
+
+          <!-- Date & Time Card -->
+          <div class="mx-auto max-w-lg rounded-2xl bg-white border border-gold-300/55 p-6 shadow-sm mb-7">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-gold-300/40">
+              <div class="pb-3 sm:pb-0 sm:pr-4 flex flex-col items-center justify-center">
+                <i data-lucide="calendar-days" class="w-5 h-5 text-gold-600 mb-2"></i>
+                <p class="text-xs uppercase tracking-widest text-charcoal-700/75">Hari / Tanggal</p>
+                <p class="font-serif text-xl font-bold text-charcoal-900 mt-1">Minggu, 27 Desember 2026</p>
+              </div>
+              <div class="pt-3 sm:pt-0 sm:pl-4 flex flex-col items-center justify-center">
+                <i data-lucide="clock" class="w-5 h-5 text-gold-600 mb-2"></i>
+                <p class="text-xs uppercase tracking-widest text-charcoal-700/75">Waktu</p>
+                <p class="font-serif text-xl font-bold text-charcoal-900 mt-1">11.00 WIB – Selesai</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Countdown Timer -->
+          <div id="countdown-grid" class="mx-auto max-w-md grid grid-cols-4 gap-2.5 sm:gap-4 mb-9">
+            <div class="rounded-2xl bg-white border border-gold-300/50 py-3.5 px-2 shadow-sm">
+              <span id="cd-days" class="block font-serif text-2xl sm:text-3xl font-bold text-gold-600">00</span>
+              <span class="text-[10px] sm:text-xs uppercase tracking-wider text-charcoal-700">Hari</span>
+            </div>
+            <div class="rounded-2xl bg-white border border-gold-300/50 py-3.5 px-2 shadow-sm">
+              <span id="cd-hours" class="block font-serif text-2xl sm:text-3xl font-bold text-gold-600">00</span>
+              <span class="text-[10px] sm:text-xs uppercase tracking-wider text-charcoal-700">Jam</span>
+            </div>
+            <div class="rounded-2xl bg-white border border-gold-300/50 py-3.5 px-2 shadow-sm">
+              <span id="cd-minutes" class="block font-serif text-2xl sm:text-3xl font-bold text-gold-600">00</span>
+              <span class="text-[10px] sm:text-xs uppercase tracking-wider text-charcoal-700">Menit</span>
+            </div>
+            <div class="rounded-2xl bg-white border border-gold-300/50 py-3.5 px-2 shadow-sm">
+              <span id="cd-seconds" class="block font-serif text-2xl sm:text-3xl font-bold text-gold-600">00</span>
+              <span class="text-[10px] sm:text-xs uppercase tracking-wider text-charcoal-700">Detik</span>
+            </div>
+          </div>
+
+          <div class="mx-auto w-16 h-px bg-gold-300/70 mb-8"></div>
+
+          <!-- Venue Details -->
+          <div class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-gold-300/25 text-gold-600 mb-3">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-charcoal-900 uppercase">
+            Hotel Pangeran, Pekanbaru
+          </h4>
+          <p class="mt-1.5 text-sm sm:text-base text-charcoal-700">
+            Jl. Jenderal Sudirman No. 371, Pekanbaru, Riau.
+          </p>
+
+          <!-- Action Buttons: Google Maps, Google Calendar & Apple/Outlook ICS -->
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="https://maps.google.com/?q=Hotel+Pangeran+Pekanbaru+Jl.+Jenderal+Sudirman+No.+371"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-gold-600 hover:bg-gold-700 text-white text-xs sm:text-sm font-medium uppercase tracking-wider px-6 py-3 shadow-md shadow-gold-700/20 transition"
+            >
+              <i data-lucide="navigation" class="w-4 h-4"></i>
+              <span>Buka di Google Maps</span>
+            </a>
+
+            <a
+              href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Resepsi+Pernikahan+dr.+Andini+Zulmaeta+%26+Faris+Arief+Mawardi,+S.T.&dates=20261227T040000Z/20261227T080000Z&details=Dengan+memohon+Rahmat+dan+Ridho+Allah+SWT,+kami+mengundang+Bapak/Ibu/Saudara/i+untuk+hadir+pada+acara+Resepsi+Pernikahan+dr.+Andini+Zulmaeta+%26+Faris+Arief+Mawardi,+S.T.&location=Hotel+Pangeran+Pekanbaru,+Jl.+Jenderal+Sudirman+No.+371,+Pekanbaru,+Riau"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full bg-white hover:bg-ivory-100 text-charcoal-900 border border-charcoal-800/70 text-xs sm:text-sm font-medium uppercase tracking-wider px-6 py-3 shadow-sm transition"
+            >
+              <i data-lucide="calendar-plus" class="w-4 h-4 text-gold-600"></i>
+              <span>Simpan di Google Calendar</span>
+            </a>
+
+            <button
+              id="btn-download-ics"
+              type="button"
+              class="inline-flex items-center gap-2 rounded-full bg-ivory-200/75 hover:bg-ivory-200 text-charcoal-800 border border-gold-300/70 text-xs font-medium uppercase tracking-wider px-5 py-2.5 transition cursor-pointer"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5 text-gold-600"></i>
+              <span>Apple / Outlook (.ics)</span>
+            </button>
+          </div>
+
+          <!-- Interactive Map + QR Code Grid -->
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch text-left">
+            <div class="md:col-span-2 rounded-2xl overflow-hidden border border-gold-300/60 shadow-sm min-h-[230px] bg-ivory-200">
+              <div id="venue-map" class="w-full h-full min-h-[230px] z-10"></div>
+            </div>
+            <div class="rounded-2xl bg-white border border-gold-300/60 p-5 shadow-sm flex flex-col items-center justify-center text-center">
+              <div id="venue-qrcode" class="p-2.5 bg-white rounded-xl border border-gold-300/40"></div>
+              <p class="mt-3 text-xs font-semibold text-charcoal-900 uppercase tracking-wider">Scan Lokasi Peta</p>
+              <p class="mt-1 text-[11px] text-charcoal-700">Arahkan kamera HP untuk petunjuk arah ke Hotel Pangeran</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION D: KONFIRMASI KEHADIRAN (RSVP) & DOA UCAPAN -->
+      <section id="rsvp-section" class="px-6 py-10 sm:px-14 sm:py-14 border-b border-gold-300/35">
+        <div class="reveal-item">
+          <div class="text-center mb-8">
+            <p class="text-[11px] sm:text-xs uppercase tracking-[0.26em] text-gold-600 font-semibold mb-2">
+              Buku Tamu &amp; Reservasi
+            </p>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal-900">
+              Konfirmasi Kehadiran (RSVP)
+            </h3>
+            <p class="mt-2 text-xs sm:text-sm text-charcoal-700 max-w-md mx-auto">
+              Mohon kesediaan Bapak/Ibu/Saudara/i untuk mengisi konfirmasi kehadiran serta memberikan doa restu bagi kedua mempelai.
+            </p>
+          </div>
+
+          <!-- RSVP Form Card -->
+          <form id="rsvp-form" class="mx-auto max-w-xl rounded-2xl bg-white border border-gold-300/60 p-6 sm:p-8 shadow-sm space-y-5">
+            <div>
+              <label for="rsvp-name" class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800 mb-1.5">
+                Nama Lengkap Undangan <span class="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="rsvp-name"
+                name="nama"
+                required
+                placeholder="Contoh: Bapak Dr. Budi Santoso & Ibu"
+                class="w-full rounded-xl border border-gold-300/70 bg-ivory-50/70 px-4 py-3 text-sm text-charcoal-900 placeholder:text-charcoal-700/45 focus:border-gold-600 focus:bg-white focus:outline-none transition"
+              />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="rsvp-status" class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800 mb-1.5">
+                  Konfirmasi Kehadiran <span class="text-red-500">*</span>
+                </label>
+                <select
+                  id="rsvp-status"
+                  name="kehadiran"
+                  required
+                  class="w-full rounded-xl border border-gold-300/70 bg-ivory-50/70 px-4 py-3 text-sm text-charcoal-900 focus:border-gold-600 focus:bg-white focus:outline-none transition"
+                >
+                  <option value="Hadir">Insya Allah Hadir</option>
+                  <option value="Tidak Hadir">Maaf, Belum Bisa Hadir</option>
+                </select>
+              </div>
+
+              <div id="guest-count-wrapper">
+                <label for="rsvp-guests" class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800 mb-1.5">
+                  Jumlah Orang Hadir
+                </label>
+                <select
+                  id="rsvp-guests"
+                  name="jumlah"
+                  class="w-full rounded-xl border border-gold-300/70 bg-ivory-50/70 px-4 py-3 text-sm text-charcoal-900 focus:border-gold-600 focus:bg-white focus:outline-none transition"
+                >
+                  <option value="1">1 Orang</option>
+                  <option value="2" selected>2 Orang</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="rsvp-message" class="block text-xs font-semibold uppercase tracking-wider text-charcoal-800 mb-1.5">
+                Catatan / Doa &amp; Ucapan Restu
+              </label>
+              <textarea
+                id="rsvp-message"
+                name="ucapan"
+                rows="3"
+                placeholder="Tuliskan doa dan ucapan terbaik untuk dr. Andini & Faris..."
+                class="w-full rounded-xl border border-gold-300/70 bg-ivory-50/70 px-4 py-3 text-sm text-charcoal-900 placeholder:text-charcoal-700/45 focus:border-gold-600 focus:bg-white focus:outline-none transition"
+              ></textarea>
+            </div>
+
+            <div class="rounded-xl bg-ivory-100/80 border border-gold-300/45 p-3.5">
+              <label class="flex items-start gap-3 cursor-pointer text-xs text-charcoal-700 leading-relaxed">
+                <input
+                  type="checkbox"
+                  id="rsvp-agree"
+                  checked
+                  required
+                  class="mt-0.5 h-4 w-4 rounded border-gold-400 text-gold-600 focus:ring-gold-500"
+                />
+                <span>
+                  <strong class="text-charcoal-900">Memahami dan Setuju akan Ketentuan</strong> — Data konfirmasi ini dicatat untuk keperluan pendataan tamu Resepsi Pernikahan dr. Andini &amp; Faris pada 27 Desember 2026.
+                </span>
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              id="btn-submit-rsvp"
+              class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gold-600 hover:bg-gold-700 active:scale-[0.99] text-white font-semibold text-xs sm:text-sm uppercase tracking-[0.16em] py-3.5 px-6 shadow-md shadow-gold-700/20 transition cursor-pointer"
+            >
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Kirim Konfirmasi &amp; Ucapan</span>
+            </button>
+
+            <div id="rsvp-feedback" class="hidden rounded-xl px-4 py-3 text-xs sm:text-sm font-medium text-center"></div>
+          </form>
+
+          <!-- Wishes Wall -->
+          <div class="mx-auto max-w-xl mt-10">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-serif text-xl sm:text-2xl font-bold text-charcoal-900">
+                Doa &amp; Ucapan Tamu
+              </h4>
+              <span id="wishes-count-badge" class="rounded-full bg-gold-300/30 text-gold-700 text-xs font-semibold px-3 py-1">
+                0 Ucapan
+              </span>
+            </div>
+
+            <div id="wishes-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+              <p id="empty-wishes-placeholder" class="text-center text-xs sm:text-sm text-charcoal-700/75 py-6 rounded-2xl bg-white/70 border border-gold-300/40">
+                Belum ada ucapan yang ditampilkan. Jadilah yang pertama mengirimkan doa restu untuk kedua mempelai.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION E: PENUTUP & TURUT MENGUNDANG -->
+      <footer class="relative px-6 py-12 sm:px-14 sm:py-16 text-center overflow-hidden">
+        <!-- Bottom Botanical Corners -->
+        <svg class="pointer-events-none absolute bottom-0 left-0 w-24 h-24 sm:w-32 sm:h-32 -scale-y-100 text-olive-500/75" viewBox="0 0 140 140" fill="none">
+          <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+          <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+          <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+          <circle cx="24" cy="44" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="24" cy="44" r="4.5" fill="#DFD2B8"/>
+          <circle cx="52" cy="24" r="11" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="52" cy="24" r="4" fill="#DFD2B8"/>
+        </svg>
+        <svg class="pointer-events-none absolute bottom-0 right-0 w-24 h-24 sm:w-32 sm:h-32 rotate-180 text-olive-500/75" viewBox="0 0 140 140" fill="none">
+          <path d="M8 115 C35 75, 70 40, 115 10" stroke="#71856C" stroke-width="1.3" stroke-linecap="round"/>
+          <ellipse cx="32" cy="82" rx="11" ry="5" transform="rotate(-38 32 82)" fill="#8CA086" fill-opacity="0.65"/>
+          <ellipse cx="52" cy="60" rx="12" ry="5.5" transform="rotate(-35 52 60)" fill="#71856C" fill-opacity="0.75"/>
+          <circle cx="24" cy="44" r="12" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="24" cy="44" r="4.5" fill="#DFD2B8"/>
+          <circle cx="52" cy="24" r="11" fill="#F4EFE6" stroke="#D4BE92" stroke-width="1"/>
+          <circle cx="52" cy="24" r="4" fill="#DFD2B8"/>
+        </svg>
+
+        <div class="reveal-item relative z-10 max-w-xl mx-auto">
+          <p class="text-xs sm:text-sm text-charcoal-700 leading-relaxed mb-4">
+            Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+          </p>
+          <p class="font-serif text-lg sm:text-xl font-semibold text-charcoal-900 mb-6">
+            Wassalamualaikum Warahmatullahi Wabarakatuh
+          </p>
+
+          <p class="text-xs uppercase tracking-[0.2em] text-gold-600 font-semibold mb-3">
+            Kami yang berbahagia,
+          </p>
+          <div class="space-y-1 text-xs sm:text-sm font-medium text-charcoal-800 mb-6">
+            <p>Keluarga Besar Bapak Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM</p>
+            <p>Keluarga Besar Bapak Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH</p>
+          </div>
+
+          <p class="font-serif text-3xl sm:text-4xl font-bold text-charcoal-900">
+            Andini &amp; Faris
+          </p>
+        </div>
+      </footer>
+    </div>
+  </main>
+
   <!-- ==================== FLOATING CONTROLS (MUSIC & SHARE TOOLS) ==================== -->
   <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-2.5">
-    <!-- Public Share Link Generator Button (Visible to all visitors) -->
+    <!-- Public Share Link Generator Button -->
     <button
       id="btn-open-host-modal"
       type="button"
       title="Buat & Bagikan Link Undangan"
-      class="flex h-11 w-11 items-center justify-center rounded-full bg-ivory-50/95 text-gold-600 shadow-md border border-gold-300/50 backdrop-blur-sm transition hover:bg-gold-600 hover:text-white"
+      class="flex h-11 w-11 items-center justify-center rounded-full bg-ivory-50/95 text-gold-600 shadow-md border border-gold-300/50 backdrop-blur-sm transition hover:bg-gold-600 hover:text-white cursor-pointer"
     >
       <i data-lucide="share-2" class="w-4 h-4"></i>
     </button>
@@ -16,13 +578,482 @@
       id="btn-toggle-music"
       type="button"
       title="Putar / Jeda Lagu: Since I Found You"
-      class="flex h-11 w-11 items-center justify-center rounded-full bg-gold-600 text-white shadow-lg shadow-gold-700/25 transition hover:bg-gold-400"
+      class="flex h-11 w-11 items-center justify-center rounded-full bg-gold-600 text-white shadow-lg shadow-gold-700/25 transition hover:bg-gold-400 cursor-pointer"
     >
       <i id="music-icon" data-lucide="disc-3" class="w-5 h-5"></i>
     </button>
   </div>
-<!-- ... existing code ... -->
-      // 8. Public Share Modal & Endpoint Settings (Accessible to all visitors)
+
+  <!-- ==================== SHARE & GENERATOR MODAL ==================== -->
+  <div id="host-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-charcoal-900/60 backdrop-blur-xs p-4 overflow-y-auto">
+    <div class="w-full max-w-lg rounded-3xl bg-ivory-50 border border-gold-300/70 p-6 sm:p-7 shadow-2xl my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-gold-300/40">
+        <div class="flex items-center gap-2">
+          <i data-lucide="send" class="w-4 h-4 text-gold-600"></i>
+          <h4 class="font-serif text-xl font-bold text-charcoal-900">Bagikan &amp; Custom Pesan Undangan</h4>
+        </div>
+        <button id="btn-close-host-modal" type="button" class="rounded-full p-1.5 text-charcoal-700 hover:bg-ivory-200 cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-4 text-left">
+        <!-- Recipient Name Input -->
+        <div>
+          <label for="share-guest-input" class="block text-xs font-semibold text-charcoal-800 mb-1">
+            Nama Tamu atau Nama Grup WA <span class="font-normal text-charcoal-700/70">(Opsional untuk Grup)</span>
+          </label>
+          <input
+            type="text"
+            id="share-guest-input"
+            placeholder="Contoh: Bapak Dr. H. Ahmad Fauzi & Ibu / Keluarga Besar..."
+            class="w-full rounded-xl border border-gold-300/80 bg-white px-3.5 py-2.5 text-sm text-charcoal-900 focus:border-gold-600 focus:outline-none"
+          />
+        </div>
+
+        <!-- Generated Bit.ly URL Box -->
+        <div>
+          <label class="block text-xs font-semibold text-charcoal-800 mb-1">
+            Tautan Undangan (Bit.ly)
+          </label>
+          <div class="flex gap-2">
+            <input
+              type="text"
+              id="generated-share-url"
+              readonly
+              class="w-full rounded-xl border border-gold-300/60 bg-ivory-100 px-3 py-2 text-xs text-charcoal-800 select-all"
+            />
+            <button
+              id="btn-copy-share-url"
+              type="button"
+              class="shrink-0 rounded-xl bg-charcoal-900 hover:bg-charcoal-800 text-white text-xs font-medium px-3.5 py-2 transition cursor-pointer"
+            >
+              Salin Link
+            </button>
+          </div>
+        </div>
+
+        <!-- Template Selector Pills (Including Grup WA) -->
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+            <label for="custom-wa-message" class="text-xs font-semibold text-charcoal-800">
+              Draf Pesan WhatsApp (Bisa Diedit / Custom)
+            </label>
+            <div class="flex flex-wrap gap-1">
+              <button type="button" data-wa-tpl="resmi" class="wa-tpl-btn rounded-lg bg-gold-600 text-white text-[11px] font-medium px-2.5 py-1 transition cursor-pointer">
+                Resmi
+              </button>
+              <button type="button" data-wa-tpl="grup" class="wa-tpl-btn rounded-lg bg-ivory-200 text-charcoal-800 hover:bg-gold-300/40 text-[11px] font-medium px-2.5 py-1 transition cursor-pointer">
+                Grup WA
+              </button>
+              <button type="button" data-wa-tpl="kolega" class="wa-tpl-btn rounded-lg bg-ivory-200 text-charcoal-800 hover:bg-gold-300/40 text-[11px] font-medium px-2.5 py-1 transition cursor-pointer">
+                Kolega
+              </button>
+              <button type="button" data-wa-tpl="sahabat" class="wa-tpl-btn rounded-lg bg-ivory-200 text-charcoal-800 hover:bg-gold-300/40 text-[11px] font-medium px-2.5 py-1 transition cursor-pointer">
+                Sahabat
+              </button>
+            </div>
+          </div>
+          <textarea
+            id="custom-wa-message"
+            rows="6"
+            class="w-full rounded-xl border border-gold-300/80 bg-white px-3.5 py-2.5 text-xs text-charcoal-900 leading-relaxed focus:border-gold-600 focus:outline-none"
+          ></textarea>
+        </div>
+
+        <!-- Multi-Option Share Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button
+            id="btn-native-share"
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-olive-600 hover:bg-olive-500 text-white text-xs font-semibold py-3 px-4 shadow-sm transition cursor-pointer"
+          >
+            <i data-lucide="share" class="w-4 h-4"></i>
+            <span>Pilih WA / Grup (HP)</span>
+          </button>
+
+          <button
+            id="btn-copy-full-msg"
+            type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-gold-600 hover:bg-gold-700 text-white text-xs font-semibold py-3 px-4 shadow-sm transition cursor-pointer"
+          >
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>Salin Pesan Lengkap</span>
+          </button>
+        </div>
+
+        <a
+          id="btn-share-wa"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-ivory-100 text-charcoal-900 border border-gold-300/80 text-xs font-medium py-2.5 px-4 transition"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-olive-600"></i>
+          <span>Buka WhatsApp Web / Desktop</span>
+        </a>
+
+        <!-- Advanced Google Apps Script Endpoint Setting -->
+        <details class="pt-2 border-t border-gold-300/40">
+          <summary class="text-[11px] font-semibold text-charcoal-700 cursor-pointer select-none">
+            Pengaturan Endpoint Google Sheet RSVP
+          </summary>
+          <div class="mt-2 space-y-2">
+            <input
+              type="url"
+              id="apps-script-url-input"
+              placeholder="https://script.google.com/macros/s/.../exec"
+              class="w-full rounded-xl border border-gold-300/80 bg-white px-3 py-2 text-xs text-charcoal-900 focus:border-gold-600 focus:outline-none"
+            />
+            <button
+              id="btn-save-endpoint"
+              type="button"
+              class="w-full rounded-xl bg-ivory-200 hover:bg-gold-300/40 text-charcoal-900 text-xs font-semibold py-2 transition cursor-pointer"
+            >
+              Simpan Endpoint RSVP
+            </button>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toast-banner" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden rounded-full bg-charcoal-900 text-white text-xs font-medium px-5 py-2.5 shadow-lg"></div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Lucide Icons
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      // Helper: Show Non-Blocking Toast Message
+      const toastBanner = document.getElementById('toast-banner');
+      let toastTimeout;
+      function showToast(msg) {
+        if (!toastBanner) return;
+        toastBanner.textContent = msg;
+        toastBanner.classList.remove('hidden');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toastBanner.classList.add('hidden');
+        }, 3000);
+      }
+
+      // 1. Parse Guest Name from URL (?to=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawGuest = urlParams.get('to');
+      const coverGuestEl = document.getElementById('cover-guest-name');
+      const rsvpNameInput = document.getElementById('rsvp-name');
+
+      if (rawGuest && rawGuest.trim() !== '') {
+        const cleanGuest = rawGuest.trim();
+        if (coverGuestEl) coverGuestEl.textContent = cleanGuest;
+        if (rsvpNameInput) rsvpNameInput.value = cleanGuest;
+      }
+
+      // 2. Background Music Player (Infinite Seamless Loop)
+      const bgAudio = document.getElementById('bg-music');
+      const btnToggleMusic = document.getElementById('btn-toggle-music');
+      let isMusicPlaying = false;
+      let userPausedMusic = false;
+
+      if (bgAudio) {
+        bgAudio.loop = true;
+        bgAudio.addEventListener('ended', () => {
+          if (!userPausedMusic) {
+            bgAudio.currentTime = 0;
+            bgAudio.play().catch(() => {});
+          }
+        });
+      }
+
+      function setMusicPlayingState(playing) {
+        isMusicPlaying = playing;
+        if (!btnToggleMusic) return;
+        if (playing) {
+          btnToggleMusic.classList.add('animate-spin-slow');
+        } else {
+          btnToggleMusic.classList.remove('animate-spin-slow');
+        }
+      }
+
+      function playBackgroundMusic() {
+        if (!bgAudio) return;
+        userPausedMusic = false;
+        bgAudio.loop = true;
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => setMusicPlayingState(true))
+            .catch(() => setMusicPlayingState(false));
+        }
+      }
+
+      function pauseBackgroundMusic() {
+        if (!bgAudio) return;
+        userPausedMusic = true;
+        bgAudio.pause();
+        setMusicPlayingState(false);
+      }
+
+      if (btnToggleMusic) {
+        btnToggleMusic.addEventListener('click', () => {
+          if (isMusicPlaying) {
+            pauseBackgroundMusic();
+          } else {
+            playBackgroundMusic();
+          }
+        });
+      }
+
+      // 3. Cover Curtain Open Interaction
+      const coverScreen = document.getElementById('cover-screen');
+      const btnOpenInvitation = document.getElementById('btn-open-invitation');
+
+      if (btnOpenInvitation && coverScreen) {
+        btnOpenInvitation.addEventListener('click', () => {
+          coverScreen.classList.add('opened');
+          playBackgroundMusic();
+          setTimeout(() => {
+            if (window.venueLeafletMap) {
+              window.venueLeafletMap.invalidateSize();
+            }
+          }, 600);
+        });
+      }
+
+      // 4. Live Countdown Timer (Target: Minggu, 27 Desember 2026 11:00 WIB / UTC+7)
+      const targetTime = new Date('2026-12-27T11:00:00+07:00').getTime();
+      const cdDays = document.getElementById('cd-days');
+      const cdHours = document.getElementById('cd-hours');
+      const cdMinutes = document.getElementById('cd-minutes');
+      const cdSeconds = document.getElementById('cd-seconds');
+
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = Math.max(0, targetTime - now);
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        if (cdDays) cdDays.textContent = String(days).padStart(2, '0');
+        if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
+        if (cdMinutes) cdMinutes.textContent = String(minutes).padStart(2, '0');
+        if (cdSeconds) cdSeconds.textContent = String(seconds).padStart(2, '0');
+      }
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      // 5. Interactive Leaflet Map & QR Code for Hotel Pangeran Pekanbaru
+      const hotelCoords = [0.5117, 101.4481];
+      const mapEl = document.getElementById('venue-map');
+      if (mapEl && window.L) {
+        const map = L.map('venue-map', { scrollWheelZoom: false }).setView(hotelCoords, 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+        L.marker(hotelCoords)
+          .addTo(map)
+          .bindPopup('<strong>Hotel Pangeran, Pekanbaru</strong><br>Jl. Jenderal Sudirman No. 371')
+          .openPopup();
+        window.venueLeafletMap = map;
+      }
+
+      const qrEl = document.getElementById('venue-qrcode');
+      if (qrEl && window.QRCode) {
+        new QRCode(qrEl, {
+          text: 'https://maps.google.com/?q=Hotel+Pangeran+Pekanbaru+Jl.+Jenderal+Sudirman+No.+371',
+          width: 112,
+          height: 112,
+          colorDark: '#2E2A25',
+          colorLight: '#FFFFFF',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+
+      // 6. Apple / Outlook (.ics) Calendar File Download
+      const btnDownloadIcs = document.getElementById('btn-download-ics');
+      if (btnDownloadIcs) {
+        btnDownloadIcs.addEventListener('click', () => {
+          const icsLines = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Undangan Andini & Faris//ID',
+            'BEGIN:VEVENT',
+            'UID:resepsi-andini-faris-20261227@github.io',
+            'DTSTAMP:20260601T000000Z',
+            'DTSTART:20261227T040000Z',
+            'DTEND:20261227T080000Z',
+            'SUMMARY:Resepsi Pernikahan dr. Andini Zulmaeta & Faris Arief Mawardi, S.T.',
+            'LOCATION:Hotel Pangeran Pekanbaru, Jl. Jenderal Sudirman No. 371, Pekanbaru, Riau',
+            'DESCRIPTION:Resepsi Pernikahan dr. Andini Zulmaeta & Faris Arief Mawardi, S.T.',
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ].join('\r\n');
+
+          const blob = new Blob([icsLines], { type: 'text/calendar;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Resepsi-Andini-Faris-27Des2026.ics';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+
+      // 7. RSVP Form Submission & Local Wishes Wall
+      const DEFAULT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8t2i9r5d0oP3w9xL4k7m2n1v6c8q3z5x7y9w1e3r5t7y9u1i3o5p7a9s1d3f5g7h9/exec';
+      const STORAGE_ENDPOINT_KEY = 'andini_faris_rsvp_endpoint_v2';
+      const STORAGE_WISHES_KEY = 'andini_faris_wishes_v2';
+
+      function getAppsScriptUrl() {
+        return localStorage.getItem(STORAGE_ENDPOINT_KEY) || DEFAULT_APPS_SCRIPT_URL;
+      }
+
+      const rsvpForm = document.getElementById('rsvp-form');
+      const rsvpStatus = document.getElementById('rsvp-status');
+      const guestCountWrapper = document.getElementById('guest-count-wrapper');
+      const rsvpGuests = document.getElementById('rsvp-guests');
+      const rsvpMessage = document.getElementById('rsvp-message');
+      const rsvpAgree = document.getElementById('rsvp-agree');
+      const btnSubmitRsvp = document.getElementById('btn-submit-rsvp');
+      const rsvpFeedback = document.getElementById('rsvp-feedback');
+      const wishesList = document.getElementById('wishes-list');
+      const wishesCountBadge = document.getElementById('wishes-count-badge');
+
+      if (rsvpStatus && guestCountWrapper) {
+        rsvpStatus.addEventListener('change', () => {
+          if (rsvpStatus.value === 'Tidak Hadir') {
+            guestCountWrapper.classList.add('opacity-50', 'pointer-events-none');
+          } else {
+            guestCountWrapper.classList.remove('opacity-50', 'pointer-events-none');
+          }
+        });
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function loadWishes() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_WISHES_KEY) || '[]');
+          renderWishes(Array.isArray(saved) ? saved : []);
+        } catch (e) {
+          renderWishes([]);
+        }
+      }
+
+      function renderWishes(items) {
+        if (!wishesList || !wishesCountBadge) return;
+        wishesCountBadge.textContent = `${items.length} Ucapan`;
+
+        if (items.length === 0) {
+          wishesList.innerHTML = `
+            <p class="text-center text-xs sm:text-sm text-charcoal-700/75 py-6 rounded-2xl bg-white/70 border border-gold-300/40">
+              Belum ada ucapan yang ditampilkan. Jadilah yang pertama mengirimkan doa restu untuk kedua mempelai.
+            </p>`;
+          return;
+        }
+
+        wishesList.innerHTML = items.map((item) => {
+          const badgeClass = item.kehadiran === 'Hadir'
+            ? 'bg-olive-100 text-olive-600 border-olive-500/30'
+            : 'bg-ivory-200 text-charcoal-700 border-gold-300/50';
+          const badgeLabel = item.kehadiran === 'Hadir'
+            ? `HADIR (${escapeHtml(item.jumlah)} ORG)`
+            : 'TIDAK HADIR';
+
+          return `
+            <div class="rounded-2xl bg-white border border-gold-300/50 p-4 shadow-xs">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <p class="font-serif text-lg font-bold text-charcoal-900">${escapeHtml(item.nama)}</p>
+                <span class="shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold tracking-wider ${badgeClass}">
+                  ${badgeLabel}
+                </span>
+              </div>
+              ${item.ucapan ? `<p class="text-xs sm:text-sm text-charcoal-700 leading-relaxed">"${escapeHtml(item.ucapan)}"</p>` : ''}
+            </div>`;
+        }).join('');
+      }
+
+      loadWishes();
+
+      if (rsvpForm) {
+        rsvpForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const nama = rsvpNameInput ? rsvpNameInput.value.trim() : '';
+          const kehadiran = rsvpStatus ? rsvpStatus.value : 'Hadir';
+          const jumlah = kehadiran === 'Hadir' && rsvpGuests ? Number(rsvpGuests.value) : 0;
+          const ucapan = rsvpMessage ? rsvpMessage.value.trim() : '';
+          const setuju = rsvpAgree && rsvpAgree.checked ? 'Ya' : 'Tidak';
+
+          if (!nama) return;
+
+          if (btnSubmitRsvp) {
+            btnSubmitRsvp.disabled = true;
+            btnSubmitRsvp.classList.add('opacity-70');
+          }
+
+          const payload = {
+            nama,
+            kehadiran,
+            jumlah,
+            jumlahHadir: jumlah,
+            setuju,
+            setujuKetentuan: setuju,
+            ucapan,
+            catatan: ucapan
+          };
+
+          try {
+            const endpoint = getAppsScriptUrl();
+            await fetch(endpoint, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+
+            // Save to local wishes wall for instant feedback
+            const currentWishes = JSON.parse(localStorage.getItem(STORAGE_WISHES_KEY) || '[]');
+            currentWishes.unshift({ nama, kehadiran, jumlah, ucapan, timestamp: new Date().toISOString() });
+            localStorage.setItem(STORAGE_WISHES_KEY, JSON.stringify(currentWishes));
+            renderWishes(currentWishes);
+
+            if (rsvpFeedback) {
+              rsvpFeedback.textContent = 'Terima kasih! Konfirmasi kehadiran dan doa restu Anda telah tercatat.';
+              rsvpFeedback.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium text-center bg-olive-100 text-olive-600 border border-olive-500/30';
+              rsvpFeedback.classList.remove('hidden');
+            }
+            if (rsvpMessage) rsvpMessage.value = '';
+          } catch (err) {
+            if (rsvpFeedback) {
+              rsvpFeedback.textContent = 'Terjadi kendala jaringan saat mengirim konfirmasi. Silakan coba sesaat lagi.';
+              rsvpFeedback.className = 'rounded-xl px-4 py-3 text-xs sm:text-sm font-medium text-center bg-red-50 text-red-700 border border-red-200';
+              rsvpFeedback.classList.remove('hidden');
+            }
+          } finally {
+            if (btnSubmitRsvp) {
+              btnSubmitRsvp.disabled = false;
+              btnSubmitRsvp.classList.remove('opacity-70');
+            }
+          }
+        });
+      }
+
+      // 8. Public Share Modal & Custom WhatsApp Message Generator (Including Grup WA)
       const hostModal = document.getElementById('host-modal');
       const shareGuestInput = document.getElementById('share-guest-input');
       const generatedUrlInput = document.getElementById('generated-share-url');
@@ -31,4 +1062,252 @@
       const endpointInput = document.getElementById('apps-script-url-input');
       const SHORT_INVITE_URL = 'https://bit.ly/andinifaris';
       let currentWaTemplate = 'resmi';
-// ... existing code ... -->
+
+      function buildInviteLink(guestName) {
+        const clean = (guestName || '').trim();
+        return clean ? `${SHORT_INVITE_URL}?to=${encodeURIComponent(clean)}` : SHORT_INVITE_URL;
+      }
+
+      function buildWaTemplateText(tplKey, guestName, inviteLink) {
+        const displayGuest = (guestName || '').trim() || 'Bapak/Ibu/Saudara/i';
+        const displayGroup = (guestName || '').trim() || 'Bapak/Ibu/Saudara/i Anggota Grup';
+
+        if (tplKey === 'grup') {
+          return `Assalamualaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth.
+*${displayGroup}*
+di Tempat
+
+Tanpa mengurangi rasa hormat karena keterbatasan jarak dan waktu, perkenankan kami mengundang Bapak/Ibu/Saudara/i sekalian melalui pesan ini untuk hadir dan memberikan doa restu pada acara Resepsi Pernikahan putra-putri kami:
+
+*dr. Andini Zulmaeta*
+Putri dari Bapak Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM & Ibu Mulyasni Muis, S.H., M.M., M.Kn.
+
+dengan
+
+*Faris Arief Mawardi, S.T.*
+Putra dari Bapak Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH & Ibu Dra. Tia Setiati
+
+🗓️ *Hari/Tanggal:* Minggu, 27 Desember 2026
+🕚 *Pukul:* 11.00 WIB – Selesai
+📍 *Tempat:* Hotel Pangeran, Pekanbaru (Jl. Jenderal Sudirman No. 371)
+
+Informasi lengkap acara, petunjuk peta lokasi, serta konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan digital berikut:
+👉 ${inviteLink}
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+
+Wassalamualaikum Warahmatullahi Wabarakatuh
+
+Kami yang berbahagia,
+*Keluarga Besar Bapak Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM*
+*Keluarga Besar Bapak Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH*
+*Andini & Faris*`;
+        }
+
+        if (tplKey === 'kolega') {
+          return `Assalamualaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth.
+*${displayGuest}*
+
+Dengan penuh rasa syukur dan kebahagiaan, kami bermaksud mengundang Bapak/Ibu/Rekan-rekan sekalian untuk hadir pada acara Resepsi Pernikahan kami:
+
+*dr. Andini Zulmaeta & Faris Arief Mawardi, S.T.*
+
+📅 *Minggu, 27 Desember 2026*
+🕚 *11.00 WIB – Selesai*
+📍 *Hotel Pangeran, Pekanbaru* (Jl. Jenderal Sudirman No. 371)
+
+Silakan buka undangan lengkap sekaligus mengisi konfirmasi kehadiran (RSVP) & doa restu melalui link berikut:
+🔗 ${inviteLink}
+
+Besar harapan kami atas kehadiran dan doa restu Bapak/Ibu/Rekan-rekan di hari bahagia kami. Terima kasih banyak.
+
+Wassalamualaikum Warahmatullahi Wabarakatuh
+
+Salam hangat,
+*Andini & Faris*`;
+        }
+
+        if (tplKey === 'sahabat') {
+          return `Assalamualaikum Wr. Wb. / Halo *${displayGuest}*! 😊
+
+Dengan memohon ridho Allah SWT, aku dan pasangan mau mengundang kamu untuk hadir & merayakan hari bahagia di acara Resepsi Pernikahan kami:
+
+✨ *Andini & Faris* ✨
+🗓️ Minggu, 27 Desember 2026
+🕚 11.00 WIB – Selesai
+📍 Hotel Pangeran, Pekanbaru
+
+Detail lokasi dan konfirmasi kehadiran (RSVP) bisa langsung dicek di undangan digital berikut ya:
+👉 ${inviteLink}
+
+Ditunggu kehadiran dan doa terbaiknya di Pekanbaru! Sampai ketemu di sana 🙏🤍
+
+Salam,
+*Andini & Faris*`;
+        }
+
+        // Default: 'resmi'
+        return `Assalamualaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth.
+*${displayGuest}*
+di Tempat
+
+Dengan memohon Rahmat dan Ridho Allah SWT, tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara Resepsi Pernikahan putra-putri kami:
+
+*dr. Andini Zulmaeta*
+Putri dari Bapak Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM & Ibu Mulyasni Muis, S.H., M.M., M.Kn.
+
+dengan
+
+*Faris Arief Mawardi, S.T.*
+Putra dari Bapak Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH & Ibu Dra. Tia Setiati
+
+🗓️ *Hari/Tanggal:* Minggu, 27 Desember 2026
+🕚 *Pukul:* 11.00 WIB – Selesai
+📍 *Tempat:* Hotel Pangeran, Pekanbaru (Jl. Jenderal Sudirman No. 371, Pekanbaru, Riau)
+
+Informasi lengkap acara, petunjuk lokasi, serta konfirmasi kehadiran (RSVP) dapat diakses melalui tautan undangan digital berikut:
+👉 ${inviteLink}
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+
+Wassalamualaikum Warahmatullahi Wabarakatuh
+
+Kami yang berbahagia,
+*Keluarga Besar Bapak Dr. dr. Zulmaeta, Sp.OG(K), Subsp. KFM*
+*Keluarga Besar Bapak Dr. dr. Surahman Hakim, Sp.OG(K), Subsp. Urogin RE., MPH*
+*Andini & Faris*`;
+      }
+
+      function syncWaDesktopHref() {
+        if (!shareWaBtn || !customWaTextarea) return;
+        shareWaBtn.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(customWaTextarea.value)}`;
+      }
+
+      function refreshShareOutputs() {
+        const guest = shareGuestInput ? shareGuestInput.value : '';
+        const link = buildInviteLink(guest);
+        if (generatedUrlInput) generatedUrlInput.value = link;
+        if (customWaTextarea) {
+          customWaTextarea.value = buildWaTemplateText(currentWaTemplate, guest, link);
+        }
+        syncWaDesktopHref();
+      }
+
+      // Template Switcher Buttons
+      document.querySelectorAll('.wa-tpl-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentWaTemplate = btn.getAttribute('data-wa-tpl') || 'resmi';
+          document.querySelectorAll('.wa-tpl-btn').forEach((b) => {
+            b.classList.remove('bg-gold-600', 'text-white');
+            b.classList.add('bg-ivory-200', 'text-charcoal-800');
+          });
+          btn.classList.remove('bg-ivory-200', 'text-charcoal-800');
+          btn.classList.add('bg-gold-600', 'text-white');
+          refreshShareOutputs();
+        });
+      });
+
+      if (shareGuestInput) {
+        shareGuestInput.addEventListener('input', refreshShareOutputs);
+      }
+      if (customWaTextarea) {
+        customWaTextarea.addEventListener('input', syncWaDesktopHref);
+      }
+
+      const btnOpenHostModal = document.getElementById('btn-open-host-modal');
+      const btnCloseHostModal = document.getElementById('btn-close-host-modal');
+
+      if (btnOpenHostModal && hostModal) {
+        btnOpenHostModal.addEventListener('click', () => {
+          if (endpointInput) endpointInput.value = getAppsScriptUrl();
+          refreshShareOutputs();
+          hostModal.classList.remove('hidden');
+          hostModal.classList.add('flex');
+        });
+      }
+
+      if (btnCloseHostModal && hostModal) {
+        btnCloseHostModal.addEventListener('click', () => {
+          hostModal.classList.add('hidden');
+          hostModal.classList.remove('flex');
+        });
+      }
+
+      function copyTextSafe(text, successMsg) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.opacity = '0';
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showToast(successMsg);
+      }
+
+      const btnCopyShareUrl = document.getElementById('btn-copy-share-url');
+      if (btnCopyShareUrl && generatedUrlInput) {
+        btnCopyShareUrl.addEventListener('click', () => {
+          copyTextSafe(generatedUrlInput.value, 'Link undangan berhasil disalin!');
+        });
+      }
+
+      const btnCopyFullMsg = document.getElementById('btn-copy-full-msg');
+      if (btnCopyFullMsg && customWaTextarea) {
+        btnCopyFullMsg.addEventListener('click', () => {
+          copyTextSafe(customWaTextarea.value, 'Draf pesan WhatsApp lengkap berhasil disalin!');
+        });
+      }
+
+      const btnNativeShare = document.getElementById('btn-native-share');
+      if (btnNativeShare && customWaTextarea) {
+        btnNativeShare.addEventListener('click', async () => {
+          const textToShare = customWaTextarea.value;
+          if (navigator.share) {
+            try {
+              await navigator.share({
+                title: 'Undangan Resepsi Pernikahan Andini & Faris',
+                text: textToShare
+              });
+            } catch (err) {
+              // User cancelled share sheet
+            }
+          } else {
+            copyTextSafe(textToShare, 'Pesan disalin! Silakan tempel di WhatsApp atau Grup pilihan Anda.');
+          }
+        });
+      }
+
+      const btnSaveEndpoint = document.getElementById('btn-save-endpoint');
+      if (btnSaveEndpoint && endpointInput) {
+        btnSaveEndpoint.addEventListener('click', () => {
+          const val = endpointInput.value.trim();
+          if (val) {
+            localStorage.setItem(STORAGE_ENDPOINT_KEY, val);
+            showToast('Endpoint Google Sheet RSVP berhasil disimpan!');
+          }
+        });
+      }
+
+      // 9. Scroll Reveal Observer
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      document.querySelectorAll('.reveal-item').forEach((el) => observer.observe(el));
+    });
+  </script>
+</body>
+</html>
