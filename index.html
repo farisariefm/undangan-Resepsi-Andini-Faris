@@ -17,9 +17,6 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Tone.js for gentle ambient wedding chime / soft pad synthesis (no external audio URLs needed) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -113,6 +110,14 @@
       animation: gentleSway 8s ease-in-out infinite;
     }
 
+    @keyframes spinDisc {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .music-disc-spinning {
+      animation: spinDisc 6s linear infinite;
+    }
+
     /* Cover curtain transition */
     #cover-screen {
       transition: transform 0.95s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
@@ -201,49 +206,48 @@
     </div>
 
     <!-- Cover Center Card -->
-    <div class="relative z-10 w-full max-w-lg rounded-3xl bg-ivory-50/90 backdrop-blur-md p-8 sm:p-12 text-center card-frame">
-      <p class="mt-1 font-sans text-xs uppercase tracking-[0.22em] text-gold-600 font-semibold">
+    <div class="relative z-10 w-full max-w-lg rounded-3xl bg-ivory-50/95 px-6 sm:px-10 py-10 sm:py-12 text-center card-frame backdrop-blur-sm">
+      <p class="font-sans text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-600 mb-3">
         Undangan Resepsi Pernikahan
       </p>
 
-      <div class="my-6">
-        <h1 class="font-script text-4xl sm:text-5xl gold-gradient-text leading-tight py-1">
-          dr. Andini Zulmaeta
-        </h1>
-        <p class="font-serif italic text-xl text-gold-600 my-0.5">&amp;</p>
-        <h2 class="font-script text-4xl sm:text-5xl gold-gradient-text leading-tight py-1">
-          Faris Arief Mawardi, S.T.
-        </h2>
-        <p class="mt-3 font-serif text-base sm:text-lg tracking-[0.18em] uppercase text-charcoal-700 font-medium">
-          27 Desember 2026
-        </p>
-        <p class="font-sans text-xs text-charcoal-700/80 mt-1">
-          Hotel Pangeran, Pekanbaru
-        </p>
-      </div>
+      <p class="font-arabic text-2xl sm:text-3xl text-charcoal-800 mb-3" lang="ar" dir="rtl">
+        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ
+      </p>
 
-      <div class="gold-divider my-6"></div>
+      <h1 class="font-script text-5xl sm:text-6xl gold-gradient-text leading-tight py-1">
+        Andini &amp; Faris
+      </h1>
 
-      <!-- Personalized Guest Box -->
-      <div class="rounded-2xl bg-ivory-200/70 border border-gold-300/40 px-5 py-4 mb-7">
-        <p class="font-sans text-[11px] uppercase tracking-[0.16em] text-charcoal-700/75">
-          Kepada Yth. Bapak/Ibu/Saudara/i:
+      <p class="mt-2 font-serif text-base sm:text-lg tracking-[0.18em] uppercase text-charcoal-700 font-semibold">
+        27 Desember 2026 &bull; Pekanbaru
+      </p>
+
+      <div class="gold-divider my-6 mx-auto w-48"></div>
+
+      <!-- Personalized Guest Greeting Box -->
+      <div class="mx-auto max-w-sm rounded-2xl bg-ivory-200/80 border border-gold-300/40 px-5 py-4 mb-7">
+        <p class="font-sans text-[11px] uppercase tracking-[0.18em] text-charcoal-700/80">
+          Kepada Yth. Bapak/Ibu/Saudara/i
         </p>
-        <p id="cover-guest-name" class="mt-1.5 font-serif text-xl sm:text-2xl font-semibold text-charcoal-900">
-          Bapak/Ibu/Saudara/i
+        <p id="cover-guest-name" class="mt-1 font-serif text-xl sm:text-2xl font-semibold text-charcoal-900 break-words">
+          Tamu Undangan
         </p>
       </div>
 
       <button
         id="btn-open-invitation"
         type="button"
-        class="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 px-8 py-3.5 font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-white shadow-lg shadow-gold-600/25 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"
+        class="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600 px-8 py-3.5 font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-lg shadow-gold-600/25 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2"
       >
         <i data-lucide="mail-open" class="w-4 h-4 transition-transform group-hover:-translate-y-0.5"></i>
         <span>Buka Undangan</span>
       </button>
     </div>
   </div>
+
+  <!-- ==================== BACKGROUND AUDIO PLAYER (INFINITE LOOP) ==================== -->
+  <audio id="bg-music" src="since-i-found-you.mp3" preload="auto" loop playsinline></audio>
 
   <!-- ==================== FLOATING CONTROLS (MUSIC & HOST TOOLS) ==================== -->
   <div class="fixed bottom-5 right-5 z-40 flex flex-col gap-2.5">
@@ -257,14 +261,14 @@
       <i data-lucide="share-2" class="w-4 h-4"></i>
     </button>
 
-    <!-- Ambient Chime Toggle Button -->
+    <!-- Background Music Toggle Disc Button -->
     <button
       id="btn-toggle-music"
       type="button"
-      title="Putar / Hentikan Melodi Latar"
+      title="Putar / Jeda Lagu: Since I Found You"
       class="flex h-11 w-11 items-center justify-center rounded-full bg-gold-600 text-white shadow-lg shadow-gold-700/25 transition hover:bg-gold-400"
     >
-      <i id="music-icon" data-lucide="volume-x" class="w-4 h-4"></i>
+      <i id="music-icon" data-lucide="disc-3" class="w-5 h-5"></i>
     </button>
   </div>
 
@@ -571,9 +575,6 @@
                 >
                   <option value="1">1 Orang</option>
                   <option value="2" selected>2 Orang</option>
-                  <option value="3">3 Orang</option>
-                  <option value="4">4 Orang</option>
-                  <option value="5">5 Orang (Keluarga)</option>
                 </select>
               </div>
             </div>
@@ -851,61 +852,79 @@
         inputNamaEl.value = guestParam;
       }
 
-      // 2. Ambient Gentle Wedding Harp/Pad Chime using Tone.js (zero external audio URLs)
+      // 2. Seamless Infinite Loop Audio Player ("since-i-found-you.mp3")
+      const bgAudio = document.getElementById('bg-music');
+      const musicBtn = document.getElementById('btn-toggle-music');
+      const musicIcon = document.getElementById('music-icon');
       let isMusicPlaying = false;
-      let ambientLoop = null;
-      let synth = null;
+      let userPausedManually = false;
 
-      async function toggleAmbientMusic() {
-        const musicIcon = document.getElementById('music-icon');
-        try {
-          if (!isMusicPlaying) {
-            await Tone.start();
-            if (!synth) {
-              synth = new Tone.PolySynth(Tone.Synth, {
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.8, decay: 1.2, sustain: 0.4, release: 2.5 },
-                volume: -18
-              }).toDestination();
+      if (bgAudio) {
+        bgAudio.loop = true;
+        bgAudio.volume = 0.85;
 
-              const chords = [
-                ['F4', 'A4', 'C5', 'E5'],
-                ['D4', 'F4', 'A4', 'C5'],
-                ['Bb3', 'D4', 'F4', 'A4'],
-                ['C4', 'E4', 'G4', 'Bb4']
-              ];
-              let step = 0;
-              ambientLoop = new Tone.Loop((time) => {
-                synth.triggerAttackRelease(chords[step % chords.length], '2n', time);
-                step++;
-              }, '1m');
-            }
-            Tone.Transport.bpm.value = 68;
-            ambientLoop.start(0);
-            Tone.Transport.start();
-            isMusicPlaying = true;
-            musicIcon.setAttribute('data-lucide', 'volume-2');
-          } else {
-            Tone.Transport.pause();
-            isMusicPlaying = false;
-            musicIcon.setAttribute('data-lucide', 'volume-x');
+        // Fallback listener to guarantee continuous replay if browser ignores loop attribute
+        bgAudio.addEventListener('ended', () => {
+          if (!userPausedManually) {
+            bgAudio.currentTime = 0;
+            bgAudio.play().catch(() => {});
           }
-          lucide.createIcons();
+        });
+      }
+
+      function syncMusicUI(playing) {
+        isMusicPlaying = playing;
+        if (playing) {
+          musicIcon.setAttribute('data-lucide', 'disc-3');
+          musicBtn.classList.add('music-disc-spinning');
+        } else {
+          musicIcon.setAttribute('data-lucide', 'volume-x');
+          musicBtn.classList.remove('music-disc-spinning');
+        }
+        lucide.createIcons();
+      }
+
+      async function playBackgroundMusic() {
+        if (!bgAudio) return;
+        try {
+          userPausedManually = false;
+          bgAudio.loop = true;
+          await bgAudio.play();
+          syncMusicUI(true);
         } catch (err) {
-          console.warn('Audio context interaction deferred:', err);
+          console.warn('Autoplay deferred until user interaction:', err);
+          syncMusicUI(false);
         }
       }
 
-      document.getElementById('btn-toggle-music').addEventListener('click', toggleAmbientMusic);
+      function pauseBackgroundMusic() {
+        if (!bgAudio) return;
+        userPausedManually = true;
+        bgAudio.pause();
+        syncMusicUI(false);
+      }
+
+      function toggleBackgroundMusic() {
+        if (isMusicPlaying) {
+          pauseBackgroundMusic();
+        } else {
+          playBackgroundMusic();
+        }
+      }
+
+      musicBtn.addEventListener('click', toggleBackgroundMusic);
 
       // 3. Cover Screen "Buka Undangan" Handler
       const coverScreen = document.getElementById('cover-screen');
-      document.getElementById('btn-open-invitation').addEventListener('click', () => {
-        coverScreen.classList.add('opened');
-        if (!isMusicPlaying) {
-          toggleAmbientMusic();
-        }
-      });
+      const openInvitationBtn = document.getElementById('btn-open-invitation');
+      if (openInvitationBtn && coverScreen) {
+        openInvitationBtn.addEventListener('click', () => {
+          coverScreen.classList.add('opened');
+          if (!isMusicPlaying) {
+            playBackgroundMusic();
+          }
+        });
+      }
 
       // 4. Scroll Reveal IntersectionObserver
       const observer = new IntersectionObserver(
@@ -1094,31 +1113,25 @@
         submitBtn.disabled = true;
         submitBtnText.textContent = 'Mengirim Konfirmasi...';
 
-        // Exact payload matching the Google Sheet columns from Sheet RSVP Andaris
+        // JSON payload aligned with Google Apps Script doPost(e) & submitRSVP(data)
         const payload = {
-          'Timestamp': new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
-          'Acara': 'Resepsi Pernikahan Pekanbaru - 27 Desember 2026',
-          'Nama Lengkap Undangan': nama,
-          'Kehadiran': kehadiran,
-          'Jumlah Orang Hadir': jumlah,
-          'Memahami dan Setuju akan Ketentuan': setuju,
-          'Catatan / Ucapan': ucapan
+          nama: nama,
+          kehadiran: kehadiran,
+          jumlahHadir: kehadiran === 'Hadir' ? Number(jumlah) : 0,
+          setujuKetentuan: setuju,
+          catatan: ucapan
         };
 
         const endpointUrl = getActiveEndpoint();
 
         try {
-          // Send URL-encoded form data compatible with Google Apps Script doPost(e)
-          const formBody = new URLSearchParams();
-          Object.entries(payload).forEach(([k, v]) => formBody.append(k, v));
-
           await fetch(endpointUrl, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
-              'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+              'Content-Type': 'text/plain;charset=utf-8'
             },
-            body: formBody.toString()
+            body: JSON.stringify(payload)
           });
         } catch (err) {
           console.warn('Apps Script network notice:', err);
