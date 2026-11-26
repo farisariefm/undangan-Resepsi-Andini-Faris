@@ -178,7 +178,7 @@
 
       <!-- Personalized Guest Recipient Box -->
       <div class="relative z-10 mx-auto max-w-sm rounded-2xl bg-white/85 border border-gold-300/60 px-5 py-4 shadow-sm mb-7">
-        <p class="text-[11px] uppercase tracking-[0.2em] text-charcoal-700/75 mb-1">
+        <p id="cover-salutation-label" class="text-[11px] uppercase tracking-[0.2em] text-charcoal-700/75 mb-1">
           Kepada Yth. Bapak/Ibu/Saudara/i
         </p>
         <p id="cover-guest-name" class="font-serif text-xl sm:text-2xl font-semibold text-charcoal-900 break-words">
@@ -601,12 +601,12 @@
         <!-- Recipient Name Input -->
         <div>
           <label for="share-guest-input" class="block text-xs font-semibold text-charcoal-800 mb-1">
-            Nama Tamu atau Nama Grup WA <span class="font-normal text-charcoal-700/70">(Opsional untuk Grup)</span>
+            Nama Tamu atau Nama Grup WA <span class="font-normal text-charcoal-700/70">(Contoh: Bapak Marlinggom... / Group Surahman Fam)</span>
           </label>
           <input
             type="text"
             id="share-guest-input"
-            placeholder="Contoh: Bapak Dr. H. Ahmad Fauzi & Ibu / Keluarga Besar..."
+            placeholder="Ketik nama tamu atau Group..."
             class="w-full rounded-xl border border-gold-300/80 bg-white px-3.5 py-2.5 text-sm text-charcoal-900 focus:border-gold-600 focus:outline-none"
           />
         </div>
@@ -742,16 +742,47 @@
         }, 3000);
       }
 
-      // 1. Parse Guest Name from URL (?to=...)
+      // 1. Smart Guest Name Parser from URL (?to=...)
+      // - ?to=Group%20Surahman%20Fam -> Cover displays "Anggota Group Surahman Fam"
+      // - ?to=Bapak%20Marlinggom%20Ferdianto%20Sitinjak -> Cover displays "Marlinggom Ferdianto Sitinjak"
+      function formatRecipientDisplay(rawParam) {
+        const clean = (rawParam || '').replace(/\+/g, ' ').trim();
+        if (!clean) {
+          return { displayName: 'Tamu Undangan', isGroup: false, rawClean: '' };
+        }
+
+        // Check if recipient is a Group / Grup
+        if (/^(group|grup)\b/i.test(clean)) {
+          return {
+            displayName: `Anggota ${clean}`,
+            isGroup: true,
+            rawClean: clean
+          };
+        }
+
+        // Strip redundant leading salutation ("Bapak ", "Ibu ", "Bpk. ", "Sdr. ", "Sdri. ", "Saudara ", "Saudari ")
+        // because "Kepada Yth. Bapak/Ibu/Saudara/i" is already displayed above the name box
+        const withoutHonorific = clean.replace(/^(bapak|bpk\.?|ibu|saudara|saudari|sdr\.?|sdri\.?)\s+/i, '').trim();
+
+        return {
+          displayName: withoutHonorific || clean,
+          isGroup: false,
+          rawClean: clean
+        };
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
-      const rawGuest = urlParams.get('to');
+      const rawGuest = urlParams.get('to') || urlParams.get('kepada') || urlParams.get('guest');
       const coverGuestEl = document.getElementById('cover-guest-name');
       const rsvpNameInput = document.getElementById('rsvp-name');
 
       if (rawGuest && rawGuest.trim() !== '') {
-        const cleanGuest = rawGuest.trim();
-        if (coverGuestEl) coverGuestEl.textContent = cleanGuest;
-        if (rsvpNameInput) rsvpNameInput.value = cleanGuest;
+        const parsedRecipient = formatRecipientDisplay(rawGuest);
+        if (coverGuestEl) coverGuestEl.textContent = parsedRecipient.displayName;
+        // Pre-fill RSVP name for individual guests; leave blank for group links so each member types their own name
+        if (rsvpNameInput && !parsedRecipient.isGroup) {
+          rsvpNameInput.value = parsedRecipient.rawClean;
+        }
       }
 
       // 2. Background Music Player (Infinite Seamless Loop)
@@ -1026,7 +1057,6 @@
               body: JSON.stringify(payload)
             });
 
-            // Save to local wishes wall for instant feedback
             const currentWishes = JSON.parse(localStorage.getItem(STORAGE_WISHES_KEY) || '[]');
             currentWishes.unshift({ nama, kehadiran, jumlah, ucapan, timestamp: new Date().toISOString() });
             localStorage.setItem(STORAGE_WISHES_KEY, JSON.stringify(currentWishes));
@@ -1069,8 +1099,11 @@
       }
 
       function buildWaTemplateText(tplKey, guestName, inviteLink) {
-        const displayGuest = (guestName || '').trim() || 'Bapak/Ibu/Saudara/i';
-        const displayGroup = (guestName || '').trim() || 'Bapak/Ibu/Saudara/i Anggota Grup';
+        const clean = (guestName || '').trim();
+        const displayGuest = clean || 'Bapak/Ibu/Saudara/i';
+        const displayGroup = clean
+          ? (/^(group|grup)\b/i.test(clean) ? `Anggota ${clean}` : clean)
+          : 'Bapak/Ibu/Saudara/i Anggota Grup';
 
         if (tplKey === 'grup') {
           return `Assalamualaikum Warahmatullahi Wabarakatuh
